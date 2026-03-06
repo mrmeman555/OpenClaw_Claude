@@ -118,6 +118,7 @@ These should be created when the time is right — not now.
 | Artifact | Purpose | When to Create |
 |----------|---------|----------------|
 | `schema.sql` | SQLite database schema for project tracking | When ready to implement the DB layer |
+| `openclaw_architecture_deepdive.md` | Source-level analysis of cron/heartbeat/ACP/context-engine/skill internals through Tier 2 lens | **CREATED 2026-03-06** — see `projects/openclaw/openclaw_architecture_deepdive.md` |
 | `openclaw_eval.md` | Detailed technical evaluation of OpenClaw for Tier 2 | After ACP deep-dive and hands-on testing |
 | `tier2_task_specs.md` | Actual prompt specifications for each Tier 2 watcher task | When designing the watcher agents |
 | `cost_model.md` | Token cost analysis across model tiers with caching | After running benchmark tests |
