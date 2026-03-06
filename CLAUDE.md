@@ -4,11 +4,20 @@ You are entering Mimir's shared workspace. Before doing anything, orient yoursel
 
 ---
 
+## Repository
+
+- **Remote:** `https://github.com/mrmeman555/OpenClaw_Claude.git`
+- **Auth:** GitHub PAT stored in `.context/.secrets` (gitignored, local only). To push: `git remote set-url origin https://<user>:<pat>@github.com/mrmeman555/OpenClaw_Claude.git`
+- **Branch:** `main`
+
+---
+
 ## Step 1: Know Who You're Working With
 
 Read `.context/mimir.md` for the full operator profile. The short version:
 
 - Mimir is a systems thinker with deep CCNA networking knowledge, currently working through Security+ and building out a home lab.
+- He has a background in experimental psychology (near-PhD, 3.97 GPA) and applies cognitive science to AI context engineering. His ML OS methodology treats prompts as cognitive architectures, not instructions. Don't underestimate the depth behind his approach.
 - Lead with "why" before "how." Socratic over lecture. Don't re-teach what he already knows.
 - He has a production network (VLANs 10/20/99) that is **off-limits**. Lab work lives on VLANs 50/51/52.
 
@@ -18,19 +27,22 @@ Read `.context/workspace.md` for full conventions. The short version:
 
 - This repo is shared across **Claude Chat App**, **Cowork**, and **Claude Code**.
 - `.context/engines/` contains project-specific engine prompts — detailed instructions for specific learning tracks and projects.
-- Progress state lives in `PROGRESS.md` files within project directories.
+- `projects/` contains project-specific artifacts, pickup documents, and research.
+- Progress state lives in `PROGRESS.md` files within project directories, or in `pickup.md` documents.
 
 ## Step 3: Ground Yourself
 
 **Do not assume what Mimir wants to work on.** Instead:
 
-1. **Scan for state.** Check for any `PROGRESS.md` files or recent commits. What was the last thing worked on? What's in-flight?
+1. **Scan for state.** Check `projects/` for pickup documents and any `PROGRESS.md` files. Check recent commits. What was the last thing worked on? What's in-flight?
 2. **Scan available engines.** List what's in `.context/engines/`. These are the defined project modes.
 3. **Ask Mimir for grounding.** Present what you found and ask:
 
 > *"Here's what I see in the workspace: [brief summary of state and available engines]. What are we working on today?"*
 
 If Mimir names a specific engine (e.g., "Design Review", "Lab Mode", "Subnetting Mode"), load the full engine prompt from `.context/engines/` and follow its protocol — including its Phase 0.
+
+If Mimir names a project (e.g., "OpenClaw"), load the pickup document from `projects/<name>/pickup.md` for full context.
 
 If Mimir wants to work on something that doesn't have an engine yet, enter **Flow Mode** — proceed in free-form but with pattern-awareness active. Read `.context/flow.md` for the full protocol. The short version: work naturally, observe recurring patterns in the background, and when you see a workflow crystallizing, name it and propose formalizing it into a new engine.
 
@@ -41,9 +53,10 @@ If Mimir gives a quick/simple request that clearly doesn't need full grounding (
 Once grounded, follow the relevant engine protocol, Flow Mode, or free-form. Regardless of mode:
 
 - **Leave artifacts.** Sessions should produce or update files — notes, progress docs, design decisions. Conversations that evaporate are wasted.
-- **Track progress.** If the project has a PROGRESS.md, keep it current. If it doesn't and the work is non-trivial, suggest creating one.
+- **Track progress.** If the project has a PROGRESS.md or pickup.md, keep it current. If it doesn't and the work is non-trivial, suggest creating one.
 - **Respect boundaries.** Production network is sacred. When in doubt, ask before acting.
-- **Stay calibrated.** Mimir's skill level is intermediate-to-advanced in networking, early-intermediate in security. Adapt accordingly — don't over-explain networking, don't under-explain security.
+- **Stay calibrated.** Mimir's skill level is intermediate-to-advanced in networking, early-intermediate in security, advanced in cognitive/prompt engineering. Adapt accordingly.
+- **Commit and push.** When meaningful work is done, commit to git and push to remote. Auth credentials are in `.context/.secrets`.
 
 ## Step 5: Reflect
 
@@ -57,6 +70,12 @@ Read `.context/flow.md` for the full reflexivity protocol. This step runs **cont
 
 ---
 
+## Quick Reference: Active Projects
+
+| Project | Pickup Doc | Status |
+|---------|-----------|--------|
+| OpenClaw Research | `projects/openclaw/pickup.md` | Early research / requirements discovery |
+
 ## Quick Reference: Available Engines
 
 | Engine | File | Triggers |
@@ -64,4 +83,4 @@ Read `.context/flow.md` for the full reflexivity protocol. This step runs **cont
 | Security Lab Build | `.context/engines/security_lab_build.md` | "Design Review", "Build Mode", "Lab Exercise", "Concept Bridge" |
 | Network Architect Mentor | `.context/engines/network_architect_mentor.md` | "Lab Mode", "Subnetting Mode", "General Chat" |
 
-*This table updates as new engines are added.*
+*These tables update as new projects and engines are added.*

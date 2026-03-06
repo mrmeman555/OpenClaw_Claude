@@ -1,0 +1,6 @@
+# Secrets — never push credentials
+.context/.secrets
+
+# OS files
+.DS_Store
+Thumbs.db
