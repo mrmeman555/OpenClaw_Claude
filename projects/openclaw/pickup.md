@@ -44,6 +44,15 @@ Moving from file/folder organization to relation-organized structure. A transcri
 ### D-007: Claude Code Headless as Tier 2 Runtime (Start Here)
 Before adopting any external orchestrator, start with Claude Code's headless mode (`claude -p`) triggered by cron. This runs on the existing Max subscription ($200/month plan) — no API key needed, no external dependencies. The loop: cron detects new transcripts or vault changes → shell script calls `claude -p` with an ML OS grounding prompt → Claude reads, extracts, writes back to vault → exits. If rate limits or capability gaps emerge, *then* evaluate OpenClaw/NanoClaw with concrete evidence of what's missing. External tooling is the fallback, not the starting point.
 
+### D-008: Leverage Existing Skill/MCP/Schedule Infrastructure
+Rather than building raw orchestration infrastructure, use what's already built into the Claude tool ecosystem:
+- **Schedule skill** (Cowork) — creates scheduled tasks on intervals. Potential lighter path to Tier 2 watchers than system-level cron.
+- **MCP Builder skill** — expose the vault system (SQLite DB, ingest pipeline, index queries) as an MCP server. Any Claude tool (Chat, Cowork, Code) could then interact with the vault through native tool calls instead of CLI wrappers.
+- **Skill Creator skill** — build custom skills with Mimir's cognitive engineering methodology. Skills are essentially ML OS grounding prompts with tool access and trigger conditions. The skill-creator includes eval/benchmarking tooling for measuring performance scientifically.
+- **Custom skills as ML OS delivery mechanism** — a skill IS a grounding prompt packaged for reuse. Mimir's psych/cognitive science background applied to skill architecture could produce agents that self-enforce scope boundaries through cognitive framing rather than code-level permissions.
+
+This is the "cheater tools" strategy: use existing scaffolding to unlock complex builds. Each well-built skill/MCP server compounds into the next tier of capability.
+
 ---
 
 ## 3. Research Findings
@@ -113,6 +122,8 @@ These should be created when the time is right — not now.
 | `tier2_task_specs.md` | Actual prompt specifications for each Tier 2 watcher task | When designing the watcher agents |
 | `cost_model.md` | Token cost analysis across model tiers with caching | After running benchmark tests |
 | `vault_browser_v2/` | Adapted vault browser for project-centric SQLite backend | After schema is designed |
+| Custom skills | ML OS-engineered skills for vault operations, scheduling, context maintenance | After analyzing prebuilt skill patterns |
+| Vault MCP server | MCP server exposing vault/DB to all Claude tools natively | After SQLite schema + MCP builder skill review |
 
 ---
 
@@ -121,7 +132,7 @@ These should be created when the time is right — not now.
 ### This Session (Cowork — OpenClaw Research)
 - **Location:** Will be exported to `Inbox/` on session end
 - **Content:** Grounding in prior work (workspace setup session + Claude Code vault session), OpenClaw/NanoClaw research, cost strategy discussion, architectural decisions about SQLite + JSON hybrid, project-centric organization, this pickup document
-- **Key moments:** Cost optimization via ML OS grounding, "the model is commodity hardware" validated against Tier 2, context caching as intentional architecture, shift from folder-organized to relation-organized
+- **Key moments:** Cost optimization via ML OS grounding, "the model is commodity hardware" validated against Tier 2, context caching as intentional (not accidental) architecture, shift from folder-organized to relation-organized, discovery of schedule/MCP/skill-creator infrastructure as low-hanging fruit, "cheater tools" strategy for enabling complex builds
 
 ### Claude Code Vault Session
 - **Location:** `Inbox/bb17b72e-d58d-4787-8305-bfd4f817884f.jsonl`
