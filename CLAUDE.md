@@ -84,3 +84,19 @@ Read `.context/flow.md` for the full reflexivity protocol. This step runs **cont
 | Network Architect Mentor | `.context/engines/network_architect_mentor.md` | "Lab Mode", "Subnetting Mode", "General Chat" |
 
 *These tables update as new projects and engines are added.*
+
+## Linked Workspaces
+
+This workspace is part of a multi-repo system. You have full file access to all of these — use absolute paths.
+
+| Workspace | Path | What Lives There |
+|-----------|------|-----------------|
+| **Home_Lab_2026** (Vault System) | `C:\Users\Erinh\Desktop\Home_Lab_2026` | Vault infrastructure — `ingest.py` CLI pipeline, `server.py` API (port 3001), vault browser UI, per-project `tasks.json` tracking, `.mlos/index.json`. Git repo: `Claude-Cowork-Vault` |
+| **ClaudeTest** (ML OS Demo) | `C:\Users\Erinh\Desktop\ClaudeTest` | ML OS visualization — boot sequence, dashboard, agent instantiation UI. Dev server on port 3000 |
+| **OpenClaw_Claude** (This Repo) | `C:\Users\Erinh\Desktop\OpenClaw_Claude` | Shared workspace — engines, research, OpenClaw/NanoClaw architecture, operator profile, reflexivity system |
+
+### Key cross-repo files
+- **Task tracking CLI:** `python C:\Users\Erinh\Desktop\Home_Lab_2026\.mlos\ingest.py task list`
+- **Vault browser API:** `C:\Users\Erinh\Desktop\Home_Lab_2026\server.py` (port 3001)
+- **Vault context packs:** `C:\Users\Erinh\Desktop\Home_Lab_2026\vault\mlos-dev\` (project-state.md, decisions.md, tasks.json, pickup.md)
+- **ML OS demo:** `C:\Users\Erinh\Desktop\ClaudeTest\index.html` (port 3000)
