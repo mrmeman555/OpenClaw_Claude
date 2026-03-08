@@ -91,12 +91,14 @@ This workspace is part of a multi-repo system. You have full file access to all 
 
 | Workspace | Path | What Lives There |
 |-----------|------|-----------------|
-| **Home_Lab_2026** (Vault System) | `C:\Users\Erinh\Desktop\Home_Lab_2026` | Vault infrastructure — `ingest.py` CLI pipeline, `server.py` API (port 3001), vault browser UI, per-project `tasks.json` tracking, `.mlos/index.json`. Git repo: `Claude-Cowork-Vault` |
-| **ClaudeTest** (ML OS Demo) | `C:\Users\Erinh\Desktop\ClaudeTest` | ML OS visualization — boot sequence, dashboard, agent instantiation UI. Dev server on port 3000 |
-| **OpenClaw_Claude** (This Repo) | `C:\Users\Erinh\Desktop\OpenClaw_Claude` | Shared workspace — engines, research, OpenClaw/NanoClaw architecture, operator profile, reflexivity system |
+| **Home_Lab_2026** (Vault System) | `$MLOS_ROOT/Home_Lab_2026` | Vault infrastructure — `ingest.py` CLI pipeline, `server.py` API (port 3001), vault browser UI, per-project `tasks.json` tracking, `.mlos/index.json`. Git repo: `Claude-Cowork-Vault` |
+| **ClaudeTest** (ML OS Demo) | `$CLAUDETEST_DIR` | ML OS visualization — boot sequence, dashboard, agent instantiation UI. Dev server on port 3000 |
+| **OpenClaw_Claude** (This Repo) | `$OPENCLAW_DIR` | Shared workspace — engines, research, OpenClaw/NanoClaw architecture, operator profile, reflexivity system |
+
+> **Paths are device-local.** Exact locations defined in `Home_Lab_2026/.env` (gitignored). Each device sets this file once. Variables: `MLOS_ROOT`, `OPENCLAW_DIR`, `VAULT_DIR`, `CLAUDETEST_DIR`.
 
 ### Key cross-repo files
-- **Task tracking CLI:** `python C:\Users\Erinh\Desktop\Home_Lab_2026\.mlos\ingest.py task list`
-- **Vault browser API:** `C:\Users\Erinh\Desktop\Home_Lab_2026\server.py` (port 3001)
-- **Vault context packs:** `C:\Users\Erinh\Desktop\Home_Lab_2026\vault\mlos-dev\` (project-state.md, decisions.md, tasks.json, pickup.md)
-- **ML OS demo:** `C:\Users\Erinh\Desktop\ClaudeTest\index.html` (port 3000)
+- **Task tracking CLI:** `python $MLOS_ROOT/Home_Lab_2026/.mlos/ingest.py task list`
+- **Vault browser API:** `$MLOS_ROOT/Home_Lab_2026/server.py` (port 3001)
+- **Vault context packs:** `$VAULT_DIR/mlos-dev/` (tasks.json, pickup.md, etc.)
+- **ML OS demo:** `$CLAUDETEST_DIR/index.html` (port 3000)
