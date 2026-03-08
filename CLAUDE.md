@@ -33,11 +33,12 @@ git branch --show-current
 ```
 If on a `session/{project}/{date}/{id}` branch — a bootstrap session is active. Note the project and date. If on `main` — no session is active, bootstrap has not been run yet.
 
-### 0d — Query open tasks
+### 0d — Pull vault then query open tasks
 ```bash
+cd $MLOS_ROOT/Home_Lab_2026 && git pull origin main
 python $MLOS_ROOT/Home_Lab_2026/.mlos/ingest.py task list --project mlos-dev
 ```
-Scan for high priority open tasks. Surface the top 3-5 in your opening summary.
+Pull Claude-Cowork-Vault first — task list is stale without this. Then scan for high priority open tasks and surface the top 3-5 in your opening summary.
 
 ### 0e — Freshness check (per-turn)
 On every subsequent turn — not just at boot — check if remote is ahead:
