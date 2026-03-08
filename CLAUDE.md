@@ -1,6 +1,6 @@
 # CLAUDE.md — Workspace Boot Sequence
 
-You are entering Mimir's shared workspace. Before doing anything, orient yourself.
+You are entering Mimir's shared workspace. Before doing anything, run the full boot sequence below in order. Do not skip steps.
 
 ---
 
@@ -8,7 +8,43 @@ You are entering Mimir's shared workspace. Before doing anything, orient yoursel
 
 - **Remote:** `https://github.com/mrmeman555/OpenClaw_Claude.git`
 - **Auth:** GitHub PAT stored in `.context/.secrets` (gitignored, local only). To push: `git remote set-url origin https://<user>:<pat>@github.com/mrmeman555/OpenClaw_Claude.git`
-- **Branch:** `main`
+- **Branch:** `main` (or active session branch if bootstrap was run)
+
+---
+
+## Step 0: Orient Before Anything Else
+
+Run these silently before saying a word.
+
+### 0a — Pull latest
+```bash
+git pull origin main
+```
+If on a session branch, pull that branch too. If remote is ahead, note what changed.
+
+### 0b — Read INBOX
+Read `.claude/INBOX.md`. Surface any `[UNREAD]` entries immediately — these are notes left by cloud agents (Claude Chat) from recent sessions. They contain decisions made, tasks created, and what to prioritize. Mark them `[READ]` after surfacing.
+
+If INBOX has unread entries, **lead with them** before anything else in your first response.
+
+### 0c — Check active session branch
+```bash
+git branch --show-current
+```
+If on a `session/{project}/{date}/{id}` branch — a bootstrap session is active. Note the project and date. If on `main` — no session is active, bootstrap has not been run yet.
+
+### 0d — Query open tasks
+```bash
+python $MLOS_ROOT/Home_Lab_2026/.mlos/ingest.py task list --project mlos-dev
+```
+Scan for high priority open tasks. Surface the top 3-5 in your opening summary.
+
+### 0e — Freshness check (per-turn)
+On every subsequent turn — not just at boot — check if remote is ahead:
+```bash
+git fetch origin -q && git log HEAD..origin/main --oneline
+```
+If new commits exist, pull before responding. Briefly note what changed: "Pulled — 2 new commits on vault (task updates)." This keeps the agent in sync when other agents push mid-session.
 
 ---
 
@@ -17,56 +53,105 @@ You are entering Mimir's shared workspace. Before doing anything, orient yoursel
 Read `.context/mimir.md` for the full operator profile. The short version:
 
 - Mimir is a systems thinker with deep CCNA networking knowledge, currently working through Security+ and building out a home lab.
-- He has a background in experimental psychology (near-PhD, 3.97 GPA) and applies cognitive science to AI context engineering. His ML OS methodology treats prompts as cognitive architectures, not instructions. Don't underestimate the depth behind his approach.
+- Background in experimental psychology (near-PhD, 3.97 GPA) — applies cognitive science to AI context engineering. His ML OS methodology treats prompts as cognitive architectures, not instructions.
 - Lead with "why" before "how." Socratic over lecture. Don't re-teach what he already knows.
-- He has a production network (VLANs 10/20/99) that is **off-limits**. Lab work lives on VLANs 50/51/52.
+- Production network (VLANs 10/20/99) is **off-limits**. Lab work lives on VLANs 50/51/52.
+- Building ML OS infrastructure as a long-term personal system. Career direction: sysadmin/security.
+
+---
 
 ## Step 2: Understand the Workspace
 
 Read `.context/workspace.md` for full conventions. The short version:
 
-- This repo is shared across **Claude Chat App**, **Cowork**, and **Claude Code**.
-- `.context/engines/` contains project-specific engine prompts — detailed instructions for specific learning tracks and projects.
+- This repo is shared across **Claude Code**, **Cowork**, and **Claude Chat App**.
+- `.context/engines/` contains project-specific engine prompts.
 - `projects/` contains project-specific artifacts, pickup documents, and research.
-- Progress state lives in `PROGRESS.md` files within project directories, or in `pickup.md` documents.
+- `.claude/transcripts/registry.md` — share URLs for Claude Chat sessions.
+- `.claude/commands/` — slash commands. `/sync` for context-aware repo sync.
+
+---
 
 ## Step 3: Ground Yourself
 
 **Do not assume what Mimir wants to work on.** Instead:
 
-1. **Scan for state.** Check `projects/` for pickup documents and any `PROGRESS.md` files. Check recent commits. What was the last thing worked on? What's in-flight?
-2. **Scan available engines.** List what's in `.context/engines/`. These are the defined project modes.
-3. **Ask Mimir for grounding.** Present what you found and ask:
+1. **Scan for state.** Check `projects/` for pickup docs and `PROGRESS.md` files. Check recent commits (`git log --oneline -5`).
+2. **Scan available engines.** List what is in `.context/engines/`.
+3. **Present and ask.** Summarize what you found and ask what to work on.
 
-> *"Here's what I see in the workspace: [brief summary of state and available engines]. What are we working on today?"*
+Format your opening like:
+> "[INBOX: <summary of unread notes if any>] | Active session: <branch or none> | Top tasks: <t-xxxx, t-xxxx> | Recent commits: <summary> | What are we working on?"
 
-If Mimir names a specific engine (e.g., "Design Review", "Lab Mode", "Subnetting Mode"), load the full engine prompt from `.context/engines/` and follow its protocol — including its Phase 0.
+If Mimir names a specific engine, load the full engine prompt from `.context/engines/` and follow its protocol including Phase 0.
 
-If Mimir names a project (e.g., "OpenClaw"), load the pickup document from `projects/<name>/pickup.md` for full context.
+If Mimir names a project, load `projects/<n>/pickup.md`.
 
-If Mimir wants to work on something that doesn't have an engine yet, enter **Flow Mode** — proceed in free-form but with pattern-awareness active. Read `.context/flow.md` for the full protocol. The short version: work naturally, observe recurring patterns in the background, and when you see a workflow crystallizing, name it and propose formalizing it into a new engine.
+If no engine exists yet, enter **Flow Mode** — read `.context/flow.md`.
 
-If Mimir gives a quick/simple request that clearly doesn't need full grounding (e.g., "rename this file", "what's the subnet mask for /22"), just do it. Don't over-ceremonialize trivial tasks.
+If Mimir gives a quick/simple request, just do it. Do not over-ceremonialize trivial tasks.
+
+---
 
 ## Step 4: Work
 
-Once grounded, follow the relevant engine protocol, Flow Mode, or free-form. Regardless of mode:
+- **Leave artifacts.** Sessions should produce or update files. Conversations that evaporate are wasted.
+- **Track progress.** Keep `PROGRESS.md` or `pickup.md` current.
+- **Respect boundaries.** Flag anything touching VLANs 10/20/99 with a warning.
+- **Stay calibrated.** Intermediate-to-advanced networking, early-intermediate security, advanced cognitive/prompt engineering.
+- **Commit and push.** Auth in `.context/.secrets`.
+- **Update tasks.** Use ingest.py if tasks were created or completed this session.
 
-- **Leave artifacts.** Sessions should produce or update files — notes, progress docs, design decisions. Conversations that evaporate are wasted.
-- **Track progress.** If the project has a PROGRESS.md or pickup.md, keep it current. If it doesn't and the work is non-trivial, suggest creating one.
-- **Respect boundaries.** Production network is sacred. When in doubt, ask before acting.
-- **Stay calibrated.** Mimir's skill level is intermediate-to-advanced in networking, early-intermediate in security, advanced in cognitive/prompt engineering. Adapt accordingly.
-- **Commit and push.** When meaningful work is done, commit to git and push to remote. Auth credentials are in `.context/.secrets`.
+---
 
 ## Step 5: Reflect
 
-Read `.context/flow.md` for the full reflexivity protocol. This step runs **continuously in the background**, not as a separate phase. The short version:
+Read `.context/flow.md` for the full reflexivity protocol. Runs continuously in the background.
 
-- **Watch for drift.** Is the loaded engine still matching how Mimir actually works? Is his skill level outpacing the engine's assumptions? Is he skipping parts of the protocol consistently?
-- **Watch for emergence.** In free-form work, are patterns forming that could become engines? Has Mimir invented new vocabulary, new metaphors, new workflows?
-- **Surface at natural breakpoints.** Don't interrupt flow to serve the meta-process. Raise observations at session ends, task completions, or when Mimir explicitly asks about workspace maintenance.
-- **Propose, don't prescribe.** Name what you see, suggest changes, let Mimir decide.
-- **Log significant observations.** If you notice meaningful drift or emergence, note it in `.context/reflexivity_log.md` so future agents inherit the awareness.
+- Watch for drift — is the engine still matching how Mimir works?
+- Watch for emergence — are patterns forming that could become engines?
+- Surface at natural breakpoints. Propose, do not prescribe.
+- Log significant observations in `.context/reflexivity_log.md`.
+
+---
+
+## Step 6: Close the Session
+
+When Mimir signals end of session:
+
+1. Update `.claude/INBOX.md` with a session summary for the next agent.
+2. Commit outstanding changes and push.
+3. If on a session branch, offer to run session-close.sh.
+
+INBOX update format:
+```
+## [UNREAD] Session {date} — {surface}
+**Branch:** {branch}
+### What we worked on
+### Tasks created/updated
+### Key decisions
+### What to do next
+```
+
+---
+
+## Linked Workspaces
+
+Paths are device-local — defined in `Home_Lab_2026/.env` (gitignored). Each device sets this file once.
+Variables: `MLOS_ROOT`, `OPENCLAW_DIR`, `VAULT_DIR`, `CLAUDETEST_DIR`
+
+| Workspace | Path | What Lives There |
+|-----------|------|-----------------|
+| **Home_Lab_2026** (Vault) | `$MLOS_ROOT/Home_Lab_2026` | ingest.py CLI, server.py API (port 3001), vault browser, tasks.json. Git: Claude-Cowork-Vault |
+| **ClaudeTest** (ML OS Demo) | `$CLAUDETEST_DIR` | ML OS visualization, dev server port 3000 |
+| **OpenClaw_Claude** (This Repo) | `$OPENCLAW_DIR` | Engines, research, operator profile, reflexivity system |
+
+### Key commands
+- **Task list:** `python $MLOS_ROOT/Home_Lab_2026/.mlos/ingest.py task list --project mlos-dev`
+- **Task add:** `python $MLOS_ROOT/Home_Lab_2026/.mlos/ingest.py task add --project mlos-dev --title "..." --priority high --type task --notes "..."`
+- **Vault browser:** `python $MLOS_ROOT/Home_Lab_2026/server.py` then http://localhost:3001
+- **Bootstrap:** `bash $MLOS_ROOT/Home_Lab_2026/.mlos/bootstrap.sh`
+- **Session close:** `bash $MLOS_ROOT/Home_Lab_2026/.mlos/session-close.sh`
 
 ---
 
@@ -75,6 +160,7 @@ Read `.context/flow.md` for the full reflexivity protocol. This step runs **cont
 | Project | Pickup Doc | Status |
 |---------|-----------|--------|
 | OpenClaw Research | `projects/openclaw/pickup.md` | Early research / requirements discovery |
+| ML OS Infrastructure | `vault/mlos-dev/tasks.json` | Active build — see task list |
 
 ## Quick Reference: Available Engines
 
@@ -84,21 +170,3 @@ Read `.context/flow.md` for the full reflexivity protocol. This step runs **cont
 | Network Architect Mentor | `.context/engines/network_architect_mentor.md` | "Lab Mode", "Subnetting Mode", "General Chat" |
 
 *These tables update as new projects and engines are added.*
-
-## Linked Workspaces
-
-This workspace is part of a multi-repo system. You have full file access to all of these — use absolute paths.
-
-| Workspace | Path | What Lives There |
-|-----------|------|-----------------|
-| **Home_Lab_2026** (Vault System) | `$MLOS_ROOT/Home_Lab_2026` | Vault infrastructure — `ingest.py` CLI pipeline, `server.py` API (port 3001), vault browser UI, per-project `tasks.json` tracking, `.mlos/index.json`. Git repo: `Claude-Cowork-Vault` |
-| **ClaudeTest** (ML OS Demo) | `$CLAUDETEST_DIR` | ML OS visualization — boot sequence, dashboard, agent instantiation UI. Dev server on port 3000 |
-| **OpenClaw_Claude** (This Repo) | `$OPENCLAW_DIR` | Shared workspace — engines, research, OpenClaw/NanoClaw architecture, operator profile, reflexivity system |
-
-> **Paths are device-local.** Exact locations defined in `Home_Lab_2026/.env` (gitignored). Each device sets this file once. Variables: `MLOS_ROOT`, `OPENCLAW_DIR`, `VAULT_DIR`, `CLAUDETEST_DIR`.
-
-### Key cross-repo files
-- **Task tracking CLI:** `python $MLOS_ROOT/Home_Lab_2026/.mlos/ingest.py task list`
-- **Vault browser API:** `$MLOS_ROOT/Home_Lab_2026/server.py` (port 3001)
-- **Vault context packs:** `$VAULT_DIR/mlos-dev/` (tasks.json, pickup.md, etc.)
-- **ML OS demo:** `$CLAUDETEST_DIR/index.html` (port 3000)
