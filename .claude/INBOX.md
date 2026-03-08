@@ -5,7 +5,7 @@ After reading, mark entries as `[READ]` — do not delete, archive at bottom.
 
 ---
 
-## [UNREAD] Session 2026-03-07 — Cloud Agent (Claude Chat)
+## [READ] Session 2026-03-07 — Cloud Agent (Claude Chat)
 
 **Session branch:** session/mlos-dev/2026-03-07/bwgh
 

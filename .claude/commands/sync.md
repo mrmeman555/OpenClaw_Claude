@@ -15,7 +15,7 @@ Gather all of the following before producing any output:
 - `git log --oneline -5` on the current branch in OpenClaw_Claude — what's been committed recently?
 - `git status` in OpenClaw_Claude — any uncommitted changes?
 - What branch is currently active — is it a session branch or main?
-- `cd C:/Users/Erinh/Desktop/Home_Lab_2026 && git fetch origin -q && git log HEAD..origin/main --oneline` — how many commits is the vault behind?
+- Read the VAULT_DIR path from `Home_Lab_2026/.env` (sibling repo), then `cd <vault-repo-root> && git fetch origin -q && git log HEAD..origin/main --oneline` — how many commits is the vault behind? The vault repo root is the parent of VAULT_DIR.
 - If the vault server is running (`curl -s localhost:3001/api/tasks`), check task count
 
 ## Step 3 — Make an intelligent prediction, then ask

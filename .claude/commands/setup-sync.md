@@ -17,7 +17,7 @@ Create the file `.claude/commands/sync.md` in this repo (OpenClaw_Claude) with t
 - Check `git log --oneline -5` on the current branch — what's been committed recently?
 - Check `git status` — any uncommitted changes?
 - Check what branch is currently active — is it a session branch or main?
-- Run `cd C:/Users/Erinh/Desktop/Home_Lab_2026 && git fetch origin -q && git log HEAD..origin/main --oneline` — how many commits is the vault behind?
+- Read the VAULT_DIR path from the vault repo's `.env` file (sibling repo of this workspace), then `cd <vault-repo-root> && git fetch origin -q && git log HEAD..origin/main --oneline` — how many commits is the vault behind? The vault repo root is the parent of VAULT_DIR.
 - If the vault server is running, check `curl -s localhost:3001/api/tasks` for task count — compare against what the agent last saw
 
 **Step 3 — Make an intelligent prediction, then ask**
