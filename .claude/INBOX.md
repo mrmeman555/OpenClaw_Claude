@@ -34,4 +34,31 @@ Long design session covering context pack generation, the ML OS Case Study 001 (
 
 ---
 
+
+## [UNREAD] Session 2026-03-07 (cont.) — Cloud Agent (Claude Chat)
+
+**Share URL:** https://claude.ai/share/e2be28ae-36c5-47b6-8514-e57cb590b018
+**Follows from:** https://claude.ai/share/ef10710c-f1aa-4035-bc99-f5521c354a13
+
+### Key decisions this session
+1. **Switching to Claude Code** for future design sessions — replaces Claude Chat. Local `.jsonl` transcripts make context capture native, no browser extension needed for Code surface.
+2. **Transcript registry created** — `.claude/transcripts/registry.md` in OpenClaw_Claude stores share URLs for session bwgh until real capture infrastructure exists.
+3. **Boot sequence assessment** — CLAUDE.md is missing: INBOX read at boot, vault/task query, session branch awareness. Needs Step 0 added.
+
+### Tasks created this session
+- `t-9271e6` — Browser extension for real-time Claude Chat transcript capture — HIGH
+- `t-47b4df` — Add active file watcher to watcher.py (GAP-008) — HIGH
+- `t-265094` — Design system for agents to self-modify boot sequences/engines — HIGH
+- `t-11cc79` — Figure out what to do with stored transcript URLs — HIGH
+
+### What to do next
+- Boot Claude Code, run bootstrap.sh, pick mlos-dev
+- Read `.claude/transcripts/registry.md` — two chat URLs stored there
+- Priority build: `t-45aa7d` (created_from + agent_id on task schema) — still the cleanest next Code agent task
+- CLAUDE.md needs Step 0: read INBOX before anything else
+- Unresolved at session end: how Claude Code app environment/branch selection works — Mimir was too tired to explore
+
+
+---
+
 *Entries below this line are archived (already read)*
